@@ -25,7 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "as5600.h"
+#include "driver_as5600.h"
 #include "hiz.h"
 #include "yon.h"
 #include "ivme.h"
@@ -50,7 +50,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+as5600_handle_t *handle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -81,6 +81,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  uint8_t as5600_init(&handle);
 
   /* USER CODE END Init */
 
@@ -172,6 +173,8 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+
+    
   }
   /* USER CODE END Error_Handler_Debug */
 }

@@ -114,3 +114,48 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data file:/C:/Users/a
 
 !ENTRY org.eclipse.cdt.core 1 0 2025-07-15 12:37:45.109
 !MESSAGE Indexed 'Kontrol2' (20 sources, 82 headers) in 4.1 sec: 5,042 declarations; 26,639 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0063%)
+!SESSION 2025-07-15 16:29:20.718 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=tr_TR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-07-15 16:29:27.289
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-07-15 16:29:27.291
+!MESSAGE Log4j2 initialized with config file C:\Users\aliya\proje\KontrolOrtakCalisma\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-07-15 16:29:33.420
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2025-07-15 16:32:16.116 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=tr_TR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-07-15 16:32:22.991
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-07-15 16:32:22.993
+!MESSAGE Log4j2 initialized with config file C:\Users\aliya\proje\KontrolOrtakCalisma\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-07-15 16:32:29.025
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2025-07-16 11:01:52.210 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=tr_TR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-07-16 11:02:01.887
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-07-16 11:02:01.889
+!MESSAGE Log4j2 initialized with config file C:\Users\aliya\proje\KontrolOrtakCalisma\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-07-16 11:02:08.249
+!MESSAGE Started RMI Server, listening on port 41337
