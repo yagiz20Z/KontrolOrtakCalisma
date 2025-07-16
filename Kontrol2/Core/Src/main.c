@@ -26,9 +26,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "driver_as5600.h"
-#include "hiz.h"
-#include "yon.h"
-#include "ivme.h"
+#include "veriler.h"
 
 /* USER CODE END Includes */
 
@@ -50,7 +48,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-as5600_handle_t *handle;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -81,7 +79,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  uint8_t as5600_init(&handle);
+
 
   /* USER CODE END Init */
 
