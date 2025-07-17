@@ -526,6 +526,7 @@ HAL_StatusTypeDef HAL_I2C_Init(I2C_HandleTypeDef *hi2c)
 
   /*---------------------------- I2Cx CCR Configuration ----------------------*/
   /* Configure I2Cx: Speed */
+
   MODIFY_REG(hi2c->Instance->CCR, (I2C_CCR_FS | I2C_CCR_DUTY | I2C_CCR_CCR), I2C_SPEED(pclk1, hi2c->Init.ClockSpeed, hi2c->Init.DutyCycle));
 
   /*---------------------------- I2Cx CR1 Configuration ----------------------*/

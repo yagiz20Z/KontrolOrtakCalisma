@@ -6,47 +6,35 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/driver_as5600.c \
-../Core/Src/gpio.c \
-../Core/Src/hiz.c \
-../Core/Src/i2c.c \
-../Core/Src/ivme.c \
 ../Core/Src/main.c \
 ../Core/Src/stm32f4xx_hal_msp.c \
 ../Core/Src/stm32f4xx_it.c \
 ../Core/Src/syscalls.c \
 ../Core/Src/sysmem.c \
 ../Core/Src/system_stm32f4xx.c \
-../Core/Src/usart.c \
+../Core/Src/veriler.c \
 ../Core/Src/yon.c 
 
 OBJS += \
 ./Core/Src/driver_as5600.o \
-./Core/Src/gpio.o \
-./Core/Src/hiz.o \
-./Core/Src/i2c.o \
-./Core/Src/ivme.o \
 ./Core/Src/main.o \
 ./Core/Src/stm32f4xx_hal_msp.o \
 ./Core/Src/stm32f4xx_it.o \
 ./Core/Src/syscalls.o \
 ./Core/Src/sysmem.o \
 ./Core/Src/system_stm32f4xx.o \
-./Core/Src/usart.o \
+./Core/Src/veriler.o \
 ./Core/Src/yon.o 
 
 C_DEPS += \
 ./Core/Src/driver_as5600.d \
-./Core/Src/gpio.d \
-./Core/Src/hiz.d \
-./Core/Src/i2c.d \
-./Core/Src/ivme.d \
 ./Core/Src/main.d \
 ./Core/Src/stm32f4xx_hal_msp.d \
 ./Core/Src/stm32f4xx_it.d \
 ./Core/Src/syscalls.d \
 ./Core/Src/sysmem.d \
 ./Core/Src/system_stm32f4xx.d \
-./Core/Src/usart.d \
+./Core/Src/veriler.d \
 ./Core/Src/yon.d 
 
 
@@ -57,7 +45,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/driver_as5600.cyclo ./Core/Src/driver_as5600.d ./Core/Src/driver_as5600.o ./Core/Src/driver_as5600.su ./Core/Src/gpio.cyclo ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/hiz.cyclo ./Core/Src/hiz.d ./Core/Src/hiz.o ./Core/Src/hiz.su ./Core/Src/i2c.cyclo ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/ivme.cyclo ./Core/Src/ivme.d ./Core/Src/ivme.o ./Core/Src/ivme.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f4xx_hal_msp.cyclo ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_hal_msp.su ./Core/Src/stm32f4xx_it.cyclo ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/stm32f4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f4xx.cyclo ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su ./Core/Src/usart.cyclo ./Core/Src/usart.d ./Core/Src/usart.o ./Core/Src/usart.su ./Core/Src/yon.cyclo ./Core/Src/yon.d ./Core/Src/yon.o ./Core/Src/yon.su
+	-$(RM) ./Core/Src/driver_as5600.cyclo ./Core/Src/driver_as5600.d ./Core/Src/driver_as5600.o ./Core/Src/driver_as5600.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f4xx_hal_msp.cyclo ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_hal_msp.su ./Core/Src/stm32f4xx_it.cyclo ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/stm32f4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f4xx.cyclo ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su ./Core/Src/veriler.cyclo ./Core/Src/veriler.d ./Core/Src/veriler.o ./Core/Src/veriler.su ./Core/Src/yon.cyclo ./Core/Src/yon.d ./Core/Src/yon.o ./Core/Src/yon.su
 
 .PHONY: clean-Core-2f-Src
 

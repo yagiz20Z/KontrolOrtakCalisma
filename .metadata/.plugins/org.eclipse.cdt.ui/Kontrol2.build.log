@@ -1,12 +1,29 @@
-11:24:21 **** Incremental Build of configuration Debug for project Kontrol2 ****
+18:18:09 **** Incremental Build of configuration Debug for project Kontrol2 ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:84:23: error: expected declaration specifiers or '...' before '&' token
-   84 |   uint8_t as5600_init(&handle);
-      |                       ^
-make: *** [Core/Src/subdir.mk:55: Core/Src/main.o] Error 1
+arm-none-eabi-gcc "../Core/Src/veriler.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/veriler.d" -MT"Core/Src/veriler.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/veriler.o"
+../Core/Src/veriler.c: In function 'as5600_ivmehiz_takip':
+../Core/Src/veriler.c:24:30: error: 'AS5600_REG_RAW_ANGLE' undeclared (first use in this function); did you mean 'AS5600_BURN_ANGLE'?
+   24 |           uint8_t reg_addr = AS5600_REG_RAW_ANGLE;
+      |                              ^~~~~~~~~~~~~~~~~~~~
+      |                              AS5600_BURN_ANGLE
+../Core/Src/veriler.c:24:30: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/veriler.c:27:15: error: 'raw_angle' undeclared (first use in this function)
+   27 |               raw_angle = (uint16_t)(i2c_rx_buffer[0] << 8) | i2c_rx_buffer[1];
+      |               ^~~~~~~~~
+../Core/Src/veriler.c:27:38: error: 'i2c_rx_buffer' undeclared (first use in this function)
+   27 |               raw_angle = (uint16_t)(i2c_rx_buffer[0] << 8) | i2c_rx_buffer[1];
+      |                                      ^~~~~~~~~~~~~
+../Core/Src/veriler.c:28:15: error: 'onceki_aci' undeclared (first use in this function)
+   28 |               onceki_aci = (float)raw_angle * 360.0f / 4096.0f;
+      |               ^~~~~~~~~~
+../Core/Src/veriler.c:29:15: warning: implicit declaration of function 'HAL_Delay' [-Wimplicit-function-declaration]
+   29 |               HAL_Delay(200);
+      |               ^~~~~~~~~
+../Core/Src/veriler.c:24:19: warning: unused variable 'reg_addr' [-Wunused-variable]
+   24 |           uint8_t reg_addr = AS5600_REG_RAW_ANGLE;
+      |                   ^~~~~~~~
+make: *** [Core/Src/subdir.mk:43: Core/Src/veriler.o] Error 1
 "make -j8 all" terminated with exit code 2. Build might be incomplete.
 
-11:24:21 Build Failed. 2 errors, 0 warnings. (took 459ms)
+18:18:10 Build Failed. 5 errors, 2 warnings. (took 422ms)
 

@@ -22,7 +22,7 @@ typedef struct {
 }acisal_ivmehiz_t;
 
 
-uint8_t as5600_ivme_takip(acisal_ivmehiz_t *a, uint32_t mevcut_zaman);
+uint8_t as5600_ivmehiz_takip(acisal_ivmehiz_t *a, uint32_t mevcut_zaman);
 
 
 #endif /* INC_VERILER_H_ */
