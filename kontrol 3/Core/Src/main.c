@@ -49,6 +49,8 @@
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c2;
 
+TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -68,7 +70,7 @@ UART_HandleTypeDef huart2;
 //float derece;
 
 //*********************************
-
+uint8_t reg_addr = AS5600_REG_RAW_ANGLE;
 uint8_t i2c_rx_buffer[2];
 uint16_t raw_angle;
 float angle_in_degrees;
@@ -76,6 +78,7 @@ HAL_StatusTypeDef i2c_status;
 float delta;
 float acisal;
 float ilk = 0;
+float motorGuc;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -83,6 +86,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C2_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -123,7 +127,9 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_I2C2_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
+  uint8_t motorKontrol (float acisalhiz,float derece);
 
 //  as5600_init(&sensor_handle);
 
@@ -137,47 +143,19 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-
-//	tick1= HAL_GetTick();
-//
-//	HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c2, AS5600_I2C_ADDR, 0x0B, 1, &RA_Buffer, 1, 100);
-
-
-
-	  //as5600_get_raw_angle(&sensor_handle, &ang);
-
-	 // derece = (ang * 360.0f) / 4096.0f;
-
-
-		//  tick2 = HAL_GetTick();
-
-		//  tickresult = tick2 - tick1;
-
-	  //***************************************
-
-	  // 1. Adım: AS5600'e hangi register'ı okumak istediğimizi söylüyoruz.
-	  // RAW_ANGLE (0x0C) register'ını okuyacağımızı belirtiyoruz.
-	  uint8_t reg_addr = AS5600_REG_RAW_ANGLE;
+	  
 	  i2c_status = HAL_I2C_Master_Transmit(&hi2c2, AS5600_I2C_ADDR, &reg_addr, 1, HAL_MAX_DELAY);
-
 	  if (i2c_status != HAL_OK)
 	  {
-	      // İletim sırasında bir hata oluştu.
-	      // Burada bir hata yönetimi yapabilirsiniz. Örneğin bir LED yakıp söndürmek.
+      return 0; // led yak
+      
 	  }
-
-	  // 2. Adım: Belirttiğimiz register'dan 2 byte veri okuyoruz.
 	  i2c_status = HAL_I2C_Master_Receive(&hi2c2, AS5600_I2C_ADDR, i2c_rx_buffer, 2, HAL_MAX_DELAY);
 
 	  if (i2c_status == HAL_OK)
 	  {
-	      // Okuma başarılı oldu.
-	      // Gelen 2 byte'lık veriyi 16-bit'lik tek bir değişkende birleştiriyoruz.
-	      // İlk byte (i2c_rx_buffer[0]) yüksek değerli 8 bit, ikinci byte (i2c_rx_buffer[1]) düşük değerli 8 bittir.
-	      raw_angle = (uint16_t)(i2c_rx_buffer[0] << 8) | i2c_rx_buffer[1];
 
-	      // 12-bitlik ham açı verisini (0-4095) 0-360 derece aralığına dönüştürüyoruz.
-	      // AS5600 çözünürlüğü 2^12 = 4096'dır.
+	      raw_angle = (uint16_t)(i2c_rx_buffer[0] << 8) | i2c_rx_buffer[1];
 	      angle_in_degrees = (float)raw_angle * 360.0f / 4096.0f;
 	      float son = angle_in_degrees;
 	      HAL_Delay(200);
@@ -187,31 +165,12 @@ int main(void)
 	      } else if (delta < -180.0f) {
 	          delta += 360.0f;
 	      }
-
 	      acisal = delta / 200.0f;
-
 	  }
-	       ilk = angle_in_degrees;
+	  ilk = angle_in_degrees;
+	  // HAL_Delay(100);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	  // Bir sonraki okumadan önce kısa bir gecikme ekliyoruz.
-	  HAL_Delay(100); // 100 milisaniye bekle
-
-
-
+	  motorKontrol(acisal, delta);
 
 
 
@@ -316,6 +275,80 @@ static void MX_I2C2_Init(void)
 }
 
 /**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 0;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 65535;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+  sBreakDeadTimeConfig.DeadTime = 0;
+  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+  if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
+  HAL_TIM_MspPostInit(&htim1);
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -388,6 +421,25 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+uint8_t motorKontrol (float acisalhiz, float derece){
+		int guc = 0;
+		int sapma;
+
+
+		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_4,5);
+
+
+
+
+
+
+
+
+
+	}
+
+
 
 /* USER CODE END 4 */
 

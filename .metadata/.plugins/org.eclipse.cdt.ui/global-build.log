@@ -1,35 +1,30 @@
-18:30:55 **** Incremental Build of configuration Debug for project kontrol 3 ****
+02:29:30 **** Incremental Build of configuration Debug for project Kontroll4 ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "kontrol 3.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\kontrol 3\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kontrol 3.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: kontrol 3.elf
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
+../Core/Src/freertos.c: In function 'Verileri':
+../Core/Src/freertos.c:134:85: warning: passing argument 3 of 'HAL_I2C_Master_Transmit' makes pointer from integer without a cast [-Wint-conversion]
+  134 |           HAL_StatusTypeDef i2c_status = HAL_I2C_Master_Transmit(&hi2c2, 0x36 << 1, 0x0C, 1, 100);
+      |                                                                                     ^~~~
+      |                                                                                     |
+      |                                                                                     int
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:363,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/freertos.c:23:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h:566:98: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int'
+  566 | HAL_StatusTypeDef HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                                         ~~~~~~~~~^~~~~
+../Core/Src/freertos.c:134:29: warning: unused variable 'i2c_status' [-Wunused-variable]
+  134 |           HAL_StatusTypeDef i2c_status = HAL_I2C_Master_Transmit(&hi2c2, 0x36 << 1, 0x0C, 1, 100);
+      |                             ^~~~~~~~~~
+arm-none-eabi-gcc -o "Kontroll4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\Kontroll4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Kontroll4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Kontroll4.elf
  
-arm-none-eabi-size  kontrol\ 3.elf 
-arm-none-eabi-objdump -h -S kontrol\ 3.elf  > "kontrol 3.list"
+arm-none-eabi-size  Kontroll4.elf 
+arm-none-eabi-objdump -h -S Kontroll4.elf  > "Kontroll4.list"
    text	   data	    bss	    dec	    hex	filename
-  27456	    468	   2084	  30008	   7538	kontrol 3.elf
+  24628	     96	  21048	  45772	   b2cc	Kontroll4.elf
 Finished building: default.size.stdout
  
-Finished building: kontrol 3.list
- 
-18:30:59 **** Incremental Build of configuration Debug for project kontrol 3 ****
-make -j8 all 
-arm-none-eabi-size  kontrol\ 3.elf 
-   text	   data	    bss	    dec	    hex	filename
-  27456	    468	   2084	  30008	   7538	kontrol 3.elf
-Finished building: default.size.stdout
- 
-18:32:09 **** Incremental Build of configuration Debug for project kontrol 3 ****
-make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "kontrol 3.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\kontrol 3\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="kontrol 3.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: kontrol 3.elf
- 
-arm-none-eabi-size  kontrol\ 3.elf 
-arm-none-eabi-objdump -h -S kontrol\ 3.elf  > "kontrol 3.list"
-   text	   data	    bss	    dec	    hex	filename
-  27464	    468	   2084	  30016	   7540	kontrol 3.elf
-Finished building: default.size.stdout
- 
-Finished building: kontrol 3.list
+Finished building: Kontroll4.list
  
