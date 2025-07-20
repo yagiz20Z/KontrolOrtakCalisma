@@ -12,47 +12,52 @@
 #include <stdint.h>
 #include <string.h>
 #include "stm32f4xx_hal.h"
-#include "driver_as5600.h"
-
 #include "main.h"
+
+#include "driver_as5600.h"
+#include "i2c.h"
+
 
 typedef struct {
 
 #define AS5600_DEVICE_ADDRESS   0x36
 #define AS5600_I2C_ADDR         (AS5600_DEVICE_ADDRESS << 1) 
 #define AS5600_REG_RAW_ANGLE    0x0C 
- 
+
+
 }alttanim;
 
 typedef struct 
 {
 
-I2C_HandleTypeDef hi2c2;
+
 HAL_StatusTypeDef i2c_status;
 
-// uint8_t i2c_rx_buffer[2];
 uint8_t buf[2];
 uint16_t raw_angle;
 
 float angle_in_degrees;
-float delta;
-float acisal;
-float ilk;
-float motorGuc;
-float son;
 
-
-
-}ortatanimV_t;
-
-
-typedef strcut {
+float delta;								// açı farkı
+float acisalhiz;							// açılardan bulunan açışal hız
+float ilkaci;								// ilk ölçülen açı
+float sonaci;								// 2 saniye sonra bulunan açı
 
 
 
 
+}ortatanim_t;
 
-}ortanimM_t;
+//
+typedef struct{
+
+	 float hedefAci;						// Hedef açı (derece)
+	 float Kp;								// Proportional kazanç
+	 float esikDeger; 						// Eşik değeri (derece)
+
+
+
+}Kontrol;
 
 
 

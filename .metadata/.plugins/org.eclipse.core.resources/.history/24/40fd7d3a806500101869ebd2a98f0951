@@ -1,0 +1,210 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * File Name          : freertos.c
+  * Description        : Code for freertos applications
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2025 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+
+/* Includes ------------------------------------------------------------------*/
+#include "FreeRTOS.h"
+#include "task.h"
+#include "main.h"
+#include "cmsis_os.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "tanimlama.h"
+
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+/* USER CODE BEGIN Variables */
+
+/* USER CODE END Variables */
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for myTask02 */
+osThreadId_t myTask02Handle;
+const osThreadAttr_t myTask02_attributes = {
+  .name = "myTask02",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for semP */
+osSemaphoreId_t semPHandle;
+const osSemaphoreAttr_t semP_attributes = {
+  .name = "semP"
+};
+
+/* Private function prototypes -----------------------------------------------*/
+/* USER CODE BEGIN FunctionPrototypes */
+
+/* USER CODE END FunctionPrototypes */
+
+void Verileri(void *argument);
+void MotorKontrol(void *argument);
+
+void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+
+/**
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
+void MX_FREERTOS_Init(void) {
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* Create the semaphores(s) */
+  /* creation of semP */
+  semPHandle = osSemaphoreNew(1, 1, &semP_attributes);
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(Verileri, NULL, &defaultTask_attributes);
+
+  /* creation of myTask02 */
+  myTask02Handle = osThreadNew(MotorKontrol, NULL, &myTask02_attributes);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
+
+}
+
+/* USER CODE BEGIN Header_Verileri */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_Verileri */
+void Verileri(void *argument)
+{
+  /* USER CODE BEGIN Verileri */
+  	ortatanim_t data;
+    data.ilkaci=0;
+
+
+  /* Infinite loop */
+  for(;;)
+  {
+
+    data.i2c_status = HAL_I2C_Mem_Read(&hi2c2, AS5600_I2C_ADDR, AS5600_REG_RAW_ANGLE, I2C_MEMADD_SIZE_8BIT, data.buf, 1, 100);
+    							// buradaki tanımlamaları tanimlama.h'dan değiştir.
+
+    if (data.i2c_status == HAL_OK)
+	  {
+	      data.raw_angle = (uint16_t)(data.buf[0] << 8) | data.buf[1];
+	      data.angle_in_degrees = (float)data.raw_angle * 360.0f / 4096.0f;		// hamverinin dereceye dönüştürüldüğü kısım.
+
+	      data.sonaci = data.angle_in_degrees;
+
+	      osDelay(200);
+
+	      data.delta = data.sonaci - data.ilkaci;
+
+	      if (data.delta > 180.0f) {				//bu kısım "-" kısmının ayarlandığı kısım kaldırılabilir.
+	          data.delta -= 360.0f;
+	      } else if (data.delta < -180.0f) {
+	          data.delta += 360.0f;
+	      }
+
+	      data.acisalhiz = data.delta / 200.0f;
+        
+	  }
+    else {
+    	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	      osDelay(200);
+
+    }
+
+    osDelay(1);
+  }
+  /* USER CODE END Verileri */
+}
+
+/* USER CODE BEGIN Header_MotorKontrol */
+/**
+* @brief Function implementing the myTask02 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_MotorKontrol */
+void MotorKontrol(void *argument)
+{
+  /* USER CODE BEGIN MotorKontrol */
+
+  Kontrol dataM;
+
+  /* Infinite loop */
+  for(;;)
+  {
+
+
+
+
+
+    osDelay(1);
+  }
+  /* USER CODE END MotorKontrol */
+}
+
+/* Private application code --------------------------------------------------*/
+/* USER CODE BEGIN Application */
+
+/* USER CODE END Application */
+
