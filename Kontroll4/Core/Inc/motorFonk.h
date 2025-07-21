@@ -1,0 +1,56 @@
+/*
+ * motorFonk.h
+ *
+ *  Created on: Jul 21, 2025
+ *      Author: aliya
+ */
+
+#ifndef INC_MOTORFONK_H_
+#define INC_MOTORFONK_H_
+
+#include "main.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+#include "stm32f4xx_hal.h"
+
+#include "tanimlama.h"
+
+#define hedefAci 180;						// Hedef açı (derece)
+#define Kp 2;								// Proportional kazanç
+#define ki 0.5;
+#define kd 0.1;
+
+typedef struct{
+
+    float toplamhata; 
+    float sonhata;
+    float ilkhata;
+    int minpwm;
+    int midpwm;
+    int maxpwm;
+
+    uint32_t sonzaman;
+    uint32_t ilkzaman;
+    
+
+
+}veriM_t;
+
+
+
+int motor_guc(acisalhiz, aci);
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif /* INC_MOTORFONK_H_ */

@@ -3,6 +3,11 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
+		<item value="queue"/>
+		<item value="freertos_init"/>
+		<item value="sharedData"/>
+		<item value="veriler"/>
+		<item value="QueueHandle"/>
 		<item value="tick"/>
 		<item value="i2c"/>
 		<item value="address"/>

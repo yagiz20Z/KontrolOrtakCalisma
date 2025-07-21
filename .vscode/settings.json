@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "compare": "c"
+        "compare": "c",
+        "stm32f4xx_hal.h": "c",
+        "queue.h": "c"
     }
 }

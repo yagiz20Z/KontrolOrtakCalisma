@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Kontroll4/Core/Inc/queueRT&apos; to &apos;queueRT.h&apos;" description="Rename resource &apos;queueRT&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Inc/queueRT" name="queueRT.h" stamp="1753087837789" updateReferences="true"/>
+</session>

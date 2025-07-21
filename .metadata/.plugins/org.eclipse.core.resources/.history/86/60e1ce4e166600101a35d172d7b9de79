@@ -1,0 +1,35 @@
+/*
+ * motorFonk.h
+ *
+ *  Created on: Jul 21, 2025
+ *      Author: aliya
+ */
+
+#ifndef INC_MOTORFONK_H_
+#define INC_MOTORFONK_H_
+
+#include "main.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+#include "stm32f4xx_hal.h"
+
+#define hedefAci 90;						// Hedef açı (derece)
+#define Kp 2;								// Proportional kazanç
+#define esikDeger 1; 						// Eşik değeri (derece)
+
+uint8_t motor_guc(float acisalhiz, float aci);    
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif /* INC_MOTORFONK_H_ */

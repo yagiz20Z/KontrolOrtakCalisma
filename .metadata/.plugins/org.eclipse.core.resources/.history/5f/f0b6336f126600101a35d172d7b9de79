@@ -1,0 +1,19 @@
+/*
+ * queueRT.h
+ *
+ *  Created on: Jul 21, 2025
+ *      Author: aliya
+ */
+
+#ifndef INC_QUEUERT_H_
+#define INC_QUEUERT_H_
+
+#include "queue.h"
+#include "tanimlama.h"
+
+QueueHandle_t Kuyruk;
+kuyruk = xQueueCreate(2, sizeof(aktarilacakVeri_T) );
+
+
+
+#endif /* INC_QUEUERT_H_ */

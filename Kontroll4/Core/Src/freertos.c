@@ -1,4 +1,3 @@
-
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -27,6 +26,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "tanimlama.h"
+#include "motorFonk.h"
+#include "queue.h"
 
 /* USER CODE END Includes */
 
@@ -63,10 +64,15 @@ const osThreadAttr_t myTask02_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
-/* Definitions for semP */
-osSemaphoreId_t semPHandle;
-const osSemaphoreAttr_t semP_attributes = {
-  .name = "semP"
+/* Definitions for SharedData */
+osMessageQueueId_t SharedDataHandle;
+const osMessageQueueAttr_t SharedData_attributes = {
+  .name = "SharedData"
+};
+/* Definitions for semp */
+osSemaphoreId_t sempHandle;
+const osSemaphoreAttr_t semp_attributes = {
+  .name = "semp"
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,8 +100,8 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_MUTEX */
 
   /* Create the semaphores(s) */
-  /* creation of semP */
-  semPHandle = osSemaphoreNew(1, 1, &semP_attributes);
+  /* creation of semp */
+  sempHandle = osSemaphoreNew(1, 1, &semp_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -104,6 +110,10 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
+
+  /* Create the queue(s) */
+  /* creation of SharedData */
+  SharedDataHandle = osMessageQueueNew (16, sizeof(uint16_t), &SharedData_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
@@ -137,6 +147,7 @@ void Verileri(void *argument)
 {
   /* USER CODE BEGIN Verileri */
   	ortatanim_t data;
+    Veri_T dataT;
     data.ilkaci=0;
 
 
@@ -152,19 +163,19 @@ void Verileri(void *argument)
 	      data.raw_angle = (uint16_t)(data.buf[0] << 8) | data.buf[1];
 	      data.angle_in_degrees = (float)data.raw_angle * 360.0f / 4096.0f;		// hamverinin dereceye dönüştürüldüğü kısım.
 
-	      data.sonaci = data.angle_in_degrees;
+	      dataT.sonaci = data.angle_in_degrees;
 
 	      osDelay(200);
 
-	      data.delta = data.sonaci - data.ilkaci;
+	      data.delta = dataT.sonaci - data.ilkaci;
 
-	      if (data.delta > 180.0f) {				//bu kısım "-" kısmının ayarlandığı kısım kaldırılabilir.
+	      if (data.delta > 180.0f) {				//bu kısım "-" kısmının ayarlandığı kısım. Kaldırılabilir.
 	          data.delta -= 360.0f;
 	      } else if (data.delta < -180.0f) {
 	          data.delta += 360.0f;
 	      }
 
-	      data.acisalhiz = data.delta / 200.0f;
+	      dataT.acisalhiz = data.delta / 200.0f;
 
 	  }
     else {
@@ -172,6 +183,9 @@ void Verileri(void *argument)
 	      osDelay(200);
 
     }
+
+
+		osMessageQueuePut(SharedDataHandle, &dataT, 0, osWaitForever);
 
     osDelay(1);
   }
@@ -188,16 +202,15 @@ void Verileri(void *argument)
 void MotorKontrol(void *argument)
 {
   /* USER CODE BEGIN MotorKontrol */
-
-  Kontrol dataM;
+		int pwmDeger;
+    Veri_T dataR;
 
   /* Infinite loop */
   for(;;)
   {
+	  osMessageQueuePut(SharedDataHandle, &dataR, 0, osWaitForever);
 
-
-
-
+	  pwmDeger = motor_guc(dataR.acisalhiz,dataR.sonaci);
 
     osDelay(1);
   }

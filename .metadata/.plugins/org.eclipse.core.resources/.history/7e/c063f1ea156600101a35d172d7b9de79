@@ -1,0 +1,27 @@
+/*
+ * queueRT.c
+ *
+ *  Created on: Jul 21, 2025
+ *      Author: aliya
+ */
+
+
+#include "queueRT.h"
+
+QueueHandle_t kuyruk;
+
+
+void queueRT_init(void){
+kuyruk = xQueueCreate(10, sizeof(aktarilacakVeri_T));
+    if (kuyruk == NULL)
+    {
+            // Hata: Queue oluşturulamadı
+    	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+            // İstersen hata LED yakabilir veya hata mesajı yazabilirsin
+    }
+
+
+
+}
+
+
