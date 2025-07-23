@@ -14,37 +14,32 @@
 #include <string.h>
 #include "stm32f4xx_hal.h"
 
+
 #include "tanimlama.h"
 
 #define hedefAci 180;						// Hedef açı (derece)
-#define Kp 2;								// Proportional kazanç
-#define ki 0.5;
-#define kd 0.1;
+#define Kp 2								// Proportional kazanç
+#define Ki 0.5                              //                          // bu kısım değiştrebilirsiniz
+#define Kd 0.1                              //
+
+#define maxpwm 1600
+#define minpwm 1400
+#define midpwm 1500
 
 typedef struct{
 
     float toplamhata; 
     float sonhata;
     float ilkhata;
-    int minpwm;
-    int midpwm;
-    int maxpwm;
-
-    uint32_t sonzaman;
-    uint32_t ilkzaman;
-    
-
+                                        // tüm değişkenler
+    float dt;
+    uint32_t Sonzaman; 
+    uint32_t Ilkzaman; 
 
 }veriM_t;
 
 
-
-int motor_guc(acisalhiz, aci);
-
-
-
-
-
+int motor_kontrol(float acisalhiz,float aci,float dt, char buffer[50]);
 
 
 

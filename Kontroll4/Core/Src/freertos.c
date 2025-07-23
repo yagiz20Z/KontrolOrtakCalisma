@@ -54,14 +54,14 @@
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 128 * 4,
+  .stack_size = 2048 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for myTask02 */
 osThreadId_t myTask02Handle;
 const osThreadAttr_t myTask02_attributes = {
   .name = "myTask02",
-  .stack_size = 128 * 4,
+  .stack_size = 2048 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for SharedData */
@@ -146,46 +146,53 @@ void MX_FREERTOS_Init(void) {
 void Verileri(void *argument)
 {
   /* USER CODE BEGIN Verileri */
+	Veri_T dataT;
   	ortatanim_t data;
-    Veri_T dataT;
-    data.ilkaci=0;
-
-
-  /* Infinite loop */
+    uint8_t buf[2];
+    TickType_t ilk = xTaskGetTickCount();
+     /* Infinite loop */
   for(;;)
   {
-	  data.i2c_status = HAL_I2C_Master_Receive(&hi2c2, AS5600_I2C_ADDR, data.buf, 2, HAL_MAX_DELAY);
+	  TickType_t son = xTaskGetTickCount();
+	  dataT.dt = (son - ilk) / 1000.0f;
+	  data.i2c_status = HAL_I2C_Master_Receive(&hi2c2, AS5600_I2C_ADDR, buf, 2, HAL_MAX_DELAY);
     							// buradaki tanımlamaları tanimlama.h'dan değiştir.
 
-    if (data.i2c_status == HAL_OK)
+    if (data.i2c_status != HAL_OK)
 	  {
+    	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	      osDelay(GECIKME);
+	  }
 
-	      data.raw_angle = (uint16_t)(data.buf[0] << 8) | data.buf[1];
+	      data.raw_angle = (uint16_t)(buf[0] << 8) | buf[1];
 	      data.angle_in_degrees = (float)data.raw_angle * 360.0f / 4096.0f;		// hamverinin dereceye dönüştürüldüğü kısım.
 
-	      dataT.sonaci = data.angle_in_degrees;
 
-	      osDelay(200);
 
 	      data.delta = dataT.sonaci - data.ilkaci;
-
 	      if (data.delta > 180.0f) {				//bu kısım "-" kısmının ayarlandığı kısım. Kaldırılabilir.
 	          data.delta -= 360.0f;
 	      } else if (data.delta < -180.0f) {
 	          data.delta += 360.0f;
 	      }
 
-	      dataT.acisalhiz = data.delta / 200.0f;
+	      if (osSemaphoreAcquire(sempHandle, 10) == osOK){
+	    	  dataT.sonaci = data.angle_in_degrees;
+		      dataT.acisalhiz = data.delta / dataT.dt;
+          osMessageQueuePut(SharedDataHandle, &dataT, 0, osWaitForever);
+		      osSemaphoreRelease(sempHandle);
 
-	  }
-    else {
-    	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-	      osDelay(200);
-
-    }
+	      }
 
 
-		osMessageQueuePut(SharedDataHandle, &dataT, 0, osWaitForever);
+
+    	  osDelay(GECIKME);
+
+            ilk = xTaskGetTickCount();
+            data.ilkaci = data.angle_in_degrees;
+
+
+	//	osMessageQueuePut(SharedDataHandle, &dataT, 0, osWaitForever);
 
     osDelay(1);
   }
@@ -202,15 +209,25 @@ void Verileri(void *argument)
 void MotorKontrol(void *argument)
 {
   /* USER CODE BEGIN MotorKontrol */
-		int pwmDeger;
-    Veri_T dataR;
+	// int pwmDeger;
+	Veri_T dataR;
+    char buffer[50];
+
 
   /* Infinite loop */
   for(;;)
   {
-	  osMessageQueuePut(SharedDataHandle, &dataR, 0, osWaitForever);
 
-	  pwmDeger = motor_guc(dataR.acisalhiz,dataR.sonaci);
+	  if (osMessageQueueGet(SharedDataHandle, &dataR, NULL,10) == osOK){
+
+		  if (osSemaphoreAcquire(sempHandle, 10) == osOK) {
+
+			  motor_kontrol(dataR.acisalhiz,dataR.sonaci,dataR.dt,buffer);
+		 	      osSemaphoreRelease (sempHandle);
+		 	  }
+
+	  }
+
 
     osDelay(1);
   }

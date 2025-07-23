@@ -1,0 +1,58 @@
+/*
+ * tanimlama.h
+ *
+ *  Created on: Jul 20, 2025
+ *      Author: aliya
+ */
+
+#ifndef INC_TANIMLAMA_H_
+#define INC_TANIMLAMA_H_
+
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+#include "stm32f4xx_hal.h"
+#include "main.h"
+
+#include "driver_as5600.h"
+#include "i2c.h"
+#include "usart.h"
+
+#define AS5600_DEVICE_ADDRESS   0x36
+#define AS5600_I2C_ADDR         (AS5600_DEVICE_ADDRESS << 1) 
+#define AS5600_REG_RAW_ANGLE    0x0C 
+#define GECIKME 100
+
+
+
+typedef struct 
+{
+
+
+HAL_StatusTypeDef i2c_status;
+
+uint8_t buf[2];
+uint16_t raw_angle;
+
+float angle_in_degrees;
+
+float delta;								// açı farkı
+float ilkaci;								// ilk ölçülen açı
+
+}ortatanim_t;
+
+// buranın altındakiler queue ile diğer task'e aktarılacaktır ve karışıklık olmaması için  ayrılmıştır
+
+typedef struct{
+
+    float sonaci;								// 2 saniye sonra bulunan açı
+    float acisalhiz;							// açılardan bulunan açışal hız
+    float dt;
+
+}Veri_T;
+
+
+
+
+
+#endif /* INC_TANIMLAMA_H_ */

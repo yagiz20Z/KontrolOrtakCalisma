@@ -170,11 +170,14 @@ int main(void)
 	  ilk = angle_in_degrees;
 	  // HAL_Delay(100);
 
-	  motorKontrol(acisal, delta);
+      char buffer[100];
+      sprintf(buffer, "Son Aci: %.2f, Acisal Hiz: %.2f\r\n",ilk,acisal);
+
+	  HAL_UART_Transmit(&huart2,(uint8_t*)buffer, strlen(buffer), 100);
 
 
 
-
+HAL_TIM
 	}
 
 

@@ -29,7 +29,8 @@ Core/Src/motorFonk.o: ../Core/Src/motorFonk.c ../Core/Inc/motorFonk.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/tanimlama.h ../Core/Inc/driver_as5600.h ../Core/Inc/i2c.h
+ ../Core/Inc/tanimlama.h ../Core/Inc/tim.h ../Core/Inc/driver_as5600.h \
+ ../Core/Inc/i2c.h ../Core/Inc/usart.h
 ../Core/Inc/motorFonk.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -63,5 +64,7 @@ Core/Src/motorFonk.o: ../Core/Src/motorFonk.c ../Core/Inc/motorFonk.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/tanimlama.h:
+../Core/Inc/tim.h:
 ../Core/Inc/driver_as5600.h:
 ../Core/Inc/i2c.h:
+../Core/Inc/usart.h:

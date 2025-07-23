@@ -1,0 +1,44 @@
+/*
+ * motorFonk.c
+ *
+ *  Created on: Jul 21, 2025
+ *      Author: aliya
+ */
+
+#include "motorFonk.h"
+
+veriM_t datas;
+Veri_T alinanV;
+
+int motor_kontrol(acisalhiz, aci){
+
+
+    datas.Sonzaman = alinanV.sonzaman;
+    datas.Ilkzaman = alinanV.ilkzaman;
+
+
+    float dt = (datas.Sonzaman - datas.Ilkzaman) / 1000.0;
+
+datas.Ilkzaman = datas.Sonzaman;
+datas.sonhata=hedefAci-aci;
+datas.toplamhata += datas.sonhata*dt;
+
+float hataturevi = (datas.sonhata-datas.ilkhata)/dt;
+
+float cikisdegeri = (Kp *  datas.sonhata) + (Ki * datas.toplamhata)+(Kd * hataturevi);
+
+datas.ilkhata = datas.sonhata;
+
+
+
+HAL_UART_Transmit_DMA(&huart2, *alinanV, sizeof(alinanV));
+
+
+
+
+
+return 0;
+
+
+
+}

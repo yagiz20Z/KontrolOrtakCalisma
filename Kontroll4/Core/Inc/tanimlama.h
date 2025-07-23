@@ -13,14 +13,16 @@
 #include <string.h>
 #include "stm32f4xx_hal.h"
 #include "main.h"
+#include "tim.h"
 
 #include "driver_as5600.h"
 #include "i2c.h"
+#include "usart.h"
 
 #define AS5600_DEVICE_ADDRESS   0x36
 #define AS5600_I2C_ADDR         (AS5600_DEVICE_ADDRESS << 1) 
 #define AS5600_REG_RAW_ANGLE    0x0C 
-
+#define GECIKME 100
 
 
 
@@ -46,10 +48,10 @@ typedef struct{
 
     float sonaci;								// 2 saniye sonra bulunan açı
     float acisalhiz;							// açılardan bulunan açışal hız
-
-
+    float dt;
 
 }Veri_T;
+
 
 
 

@@ -40,8 +40,9 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Core/Inc/tanimlama.h ../Core/Inc/main.h ../Core/Inc/driver_as5600.h \
- ../Core/Inc/i2c.h ../Core/Inc/motorFonk.h ../Core/Inc/tanimlama.h \
+ ../Core/Inc/tanimlama.h ../Core/Inc/main.h ../Core/Inc/tim.h \
+ ../Core/Inc/driver_as5600.h ../Core/Inc/i2c.h ../Core/Inc/usart.h \
+ ../Core/Inc/motorFonk.h ../Core/Inc/tanimlama.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
@@ -88,8 +89,10 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../Core/Inc/tanimlama.h:
 ../Core/Inc/main.h:
+../Core/Inc/tim.h:
 ../Core/Inc/driver_as5600.h:
 ../Core/Inc/i2c.h:
+../Core/Inc/usart.h:
 ../Core/Inc/motorFonk.h:
 ../Core/Inc/tanimlama.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:

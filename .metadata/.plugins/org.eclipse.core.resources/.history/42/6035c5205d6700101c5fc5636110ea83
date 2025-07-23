@@ -1,0 +1,51 @@
+/*
+ * motorFonk.h
+ *
+ *  Created on: Jul 21, 2025
+ *      Author: aliya
+ */
+
+#ifndef INC_MOTORFONK_H_
+#define INC_MOTORFONK_H_
+
+#include "main.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+#include "stm32f4xx_hal.h"
+
+
+#include "tanimlama.h"
+
+#define hedefAci 180;						// Hedef açı (derece)
+#define Kp 2								// Proportional kazanç
+#define Ki 0.5                              //                          // bu kısım değiştrebilirsiniz
+#define Kd 0.1                              //
+
+#define maxpwm 1600
+#define minpwm 1400
+#define midpwm 1500
+
+typedef struct{
+
+    float toplamhata; 
+    float sonhata;
+    float ilkhata;
+                                        // tüm değişkenler
+
+    uint32_t Sonzaman; 
+    uint32_t Ilkzaman; 
+
+}veriM_t;
+
+
+int motor_kontrol(float acisalhiz,float  aci, char buffer[0]);
+
+
+
+
+
+
+
+
+#endif /* INC_MOTORFONK_H_ */

@@ -1,35 +1,43 @@
-15:19:29 **** Incremental Build of configuration Debug for project Kontroll4 ****
+05:17:03 **** Incremental Build of configuration Debug for project Kontroll4 ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc "../Core/Src/motorFonk.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/motorFonk.d" -MT"Core/Src/motorFonk.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/motorFonk.o"
-In file included from ../Core/Src/motorFonk.c:8:
-../Core/Inc/motorFonk.h:41:1: warning: parameter names (without types) in function declaration
-   41 | int motor_guc(acisalhiz, aci);
-      | ^~~
-../Core/Src/motorFonk.c: In function 'motor_guc':
-../Core/Src/motorFonk.c:13:5: warning: type of 'acisalhiz' defaults to 'int' [-Wimplicit-int]
-   13 | int motor_guc(acisalhiz, aci){
-      |     ^~~~~~~~~
-../Core/Src/motorFonk.c:13:5: warning: type of 'aci' defaults to 'int' [-Wimplicit-int]
-In file included from ../Core/Src/freertos.c:29:
-../Core/Inc/motorFonk.h:41:1: warning: parameter names (without types) in function declaration
-   41 | int motor_guc(acisalhiz, aci);
-      | ^~~
-../Core/Src/freertos.c: In function 'MotorKontrol':
-../Core/Src/freertos.c:205:21: warning: variable 'pwmDeger' set but not used [-Wunused-but-set-variable]
-  205 |                 int pwmDeger;
-      |                     ^~~~~~~~
-arm-none-eabi-gcc -o "Kontroll4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\Kontroll4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Kontroll4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+arm-none-eabi-gcc "../Core/Src/tanimlama.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/tanimlama.d" -MT"Core/Src/tanimlama.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/tanimlama.o"
+../Core/Src/motorFonk.c: In function 'motor_kontrol':
+../Core/Src/motorFonk.c:15:27: warning: statement with no effect [-Wunused-value]
+   15 |     datas.sonhata=hedefAci-aci;
+      |                           ^~~~
+../Core/Src/motorFonk.c:25:47: warning: 'sizeof' on array function parameter 'buffer' will return size of 'char *' [-Wsizeof-array-argument]
+   25 |  HAL_UART_Transmit_DMA(&huart2, buffer, sizeof(buffer));                                                                                        // fifo etkisinden kurtarmak için dma'lı uart paketi yolladım
+      |                                               ^
+../Core/Src/motorFonk.c:13:61: note: declared here
+   13 | int motor_kontrol(float acisalhiz, float aci,float dt, char buffer[50]){
+      |                                                        ~~~~~^~~~~~~~~~
+../Core/Src/motorFonk.c:25:33: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit_DMA' differ in signedness [-Wpointer-sign]
+   25 |  HAL_UART_Transmit_DMA(&huart2, buffer, sizeof(buffer));                                                                                        // fifo etkisinden kurtarmak için dma'lı uart paketi yolladım
+      |                                 ^~~~~~
+      |                                 |
+      |                                 char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Inc/motorFonk.h:11,
+                 from ../Core/Src/motorFonk.c:8:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:749:83: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+  749 | HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size);
+      |                                                                    ~~~~~~~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Kontroll4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\Kontroll4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Kontroll4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Kontroll4.elf
  
 arm-none-eabi-size  Kontroll4.elf 
 arm-none-eabi-objdump -h -S Kontroll4.elf  > "Kontroll4.list"
    text	   data	    bss	    dec	    hex	filename
-  27476	     16	  20584	  48076	   bbcc	Kontroll4.elf
+  55740	    472	  21016	  77228	  12dac	Kontroll4.elf
 Finished building: default.size.stdout
  
 Finished building: Kontroll4.list
  
 
-15:19:32 Build Finished. 0 errors, 5 warnings. (took 2s.135ms)
+05:17:05 Build Finished. 0 errors, 3 warnings. (took 1s.868ms)
 
