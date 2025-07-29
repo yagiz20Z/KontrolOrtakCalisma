@@ -8,24 +8,23 @@
 #include "motorFonk.h"
 
 veriM_t datas;
-Veri_T alinanV;
 
-int motor_kontrol(float acisalhiz, float aci,float dt, char buffer[50]){
 
-    datas.sonhata=hedefAci-aci;
-    datas.toplamhata += datas.sonhata*dt;
+int motor_kontrol(Veri_T alinanV){
 
-    float hataturevi = (datas.sonhata-datas.ilkhata)/dt;
-    float cikisdegeri = (Kp *  datas.sonhata) + (Ki * datas.toplamhata)+(Kd * hataturevi);
+    datas.sonhata=hedefAci-alinanV.sonaci;
+    datas.toplamhata += datas.sonhata*alinanV.dt;
+
+    float hataturevi = (datas.sonhata-datas.ilkhata)/alinanV.dt;
+    float cikisdegeri = (Kp *  datas.sonhata) + (Ki * datas.toplamhata)+(Kd * hataturevi);				// PID Kontrol formülü
     datas.ilkhata = datas.sonhata;
+    float deneme = alinanV.sonaci;
+
+ char buffer[50];
+ sprintf(buffer, "Son Aci: %.2f, Acisal Hiz: %.2f\r\n", alinanV.sonaci, alinanV.acisalhiz);
+ HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 1000);
 
 
-
- sprintf(buffer, "Son Aci: %.2f, Acisal Hiz: %.2f\r\n", acisalhiz, aci);
- HAL_UART_Transmit_DMA(&huart2, buffer, sizeof(buffer));											// fifo etkisinden kurtarmak için dma'lı uart paketi yolladım
-
-
-//		 int pwm = constrain(midpwm + cikisdegeri, minpwm, maxpwm);
 int pwm= midpwm + cikisdegeri;
 
 if (pwm >= maxpwm){
@@ -38,11 +37,9 @@ else {
 	return pwm;
 }
 
-
- __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_4,pwm);
-
-
-
+// buradan sonra pwm kontrolü ve arttırımının sağlanacağı yer
+// burayı mekanik hazırlandığında ekleyeceğim
+// pwm'ler belirtildiği gibi ayarlandı
 
 
 

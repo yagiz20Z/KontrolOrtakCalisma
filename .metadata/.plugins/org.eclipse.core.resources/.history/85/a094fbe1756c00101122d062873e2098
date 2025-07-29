@@ -1,0 +1,58 @@
+/*
+ * motorFonk.c
+ *
+ *  Created on: Jul 21, 2025
+ *      Author: aliya
+ */
+
+#include "motorFonk.h"
+
+veriM_t datas;
+
+
+int motor_kontrol(Veri_T alinanV){
+
+    datas.sonhata=hedefAci-alinanV.sonaci;
+    datas.toplamhata += datas.sonhata*alinanV.dt;
+
+    float hataturevi = (datas.sonhata-datas.ilkhata)/alinanV.dt;
+    float cikisdegeri = (Kp *  datas.sonhata) + (Ki * datas.toplamhata)+(Kd * hataturevi);
+    datas.ilkhata = datas.sonhata;
+    float deneme = alinanV.sonaci;
+
+// char buffer[50];
+// sprintf(buffer, "Son Aci: %.2f, Acisal Hiz: %.2f\r\n", alinanV.sonaci, alinanV.acisalhiz);
+// HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 1000);
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 // fifo etkisinden kurtarmak için dma'lı uart paketi yolladım
+
+
+//		 int pwm = constrain(midpwm + cikisdegeri, minpwm, maxpwm);
+int pwm= midpwm + cikisdegeri;
+
+if (pwm >= maxpwm){
+	pwm = maxpwm;
+}
+else if (pwm <= minpwm){
+	pwm = minpwm;
+}
+else {
+	return pwm;
+}
+
+
+// __HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_4,pwm);
+
+
+
+
+
+
+
+
+
+
+return 0;
+
+
+
+}

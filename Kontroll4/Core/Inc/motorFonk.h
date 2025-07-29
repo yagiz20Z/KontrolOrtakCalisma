@@ -17,14 +17,15 @@
 
 #include "tanimlama.h"
 
-#define hedefAci 180;						// Hedef açı (derece)
-#define Kp 2								// Proportional kazanç
-#define Ki 0.5                              //                          // bu kısım değiştrebilirsiniz
-#define Kd 0.1                              //
+#define hedefAci 180.0f						// Hedef açı (derece)
+#define Kp 2.0f								// Proportional kazanç
+#define Ki 0.5f                             // İntegral. PID kontrolünde hata birikimini sağlar                  
+#define Kd 0.1f                             // Türev . PID kontrolünde "salınımla" ilgilneir
 
 #define maxpwm 1600
 #define minpwm 1400
 #define midpwm 1500
+
 
 typedef struct{
 
@@ -39,7 +40,7 @@ typedef struct{
 }veriM_t;
 
 
-int motor_kontrol(float acisalhiz,float aci,float dt, char buffer[50]);
+int motor_kontrol(Veri_T veri);
 
 
 

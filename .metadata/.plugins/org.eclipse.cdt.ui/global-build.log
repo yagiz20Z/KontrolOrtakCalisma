@@ -1,39 +1,139 @@
-05:17:03 **** Incremental Build of configuration Debug for project Kontroll4 ****
+15:00:09 **** Incremental Build of configuration Debug for project Kontroll4 ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc "../Core/Src/motorFonk.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/motorFonk.d" -MT"Core/Src/motorFonk.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/motorFonk.o"
-arm-none-eabi-gcc "../Core/Src/tanimlama.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/tanimlama.d" -MT"Core/Src/tanimlama.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/tanimlama.o"
-../Core/Src/motorFonk.c: In function 'motor_kontrol':
-../Core/Src/motorFonk.c:15:27: warning: statement with no effect [-Wunused-value]
-   15 |     datas.sonhata=hedefAci-aci;
-      |                           ^~~~
-../Core/Src/motorFonk.c:25:47: warning: 'sizeof' on array function parameter 'buffer' will return size of 'char *' [-Wsizeof-array-argument]
-   25 |  HAL_UART_Transmit_DMA(&huart2, buffer, sizeof(buffer));                                                                                        // fifo etkisinden kurtarmak için dma'lı uart paketi yolladım
-      |                                               ^
-../Core/Src/motorFonk.c:13:61: note: declared here
-   13 | int motor_kontrol(float acisalhiz, float aci,float dt, char buffer[50]){
-      |                                                        ~~~~~^~~~~~~~~~
-../Core/Src/motorFonk.c:25:33: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit_DMA' differ in signedness [-Wpointer-sign]
-   25 |  HAL_UART_Transmit_DMA(&huart2, buffer, sizeof(buffer));                                                                                        // fifo etkisinden kurtarmak için dma'lı uart paketi yolladım
-      |                                 ^~~~~~
-      |                                 |
-      |                                 char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Inc/motorFonk.h:11,
-                 from ../Core/Src/motorFonk.c:8:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:749:83: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
-  749 | HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size);
-      |                                                                    ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/freertos.c: In function 'Verileri':
+../Core/Src/freertos.c:194:17: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+  194 |             if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+      |                 ^~~~
+../Core/Src/freertos.c:31:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   30 | #include "queue.h"
+  +++ |+#include <math.h>
+   31 | 
+../Core/Src/freertos.c:194:17: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+  194 |             if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+      |                 ^~~~
+../Core/Src/freertos.c:194:17: note: include '<math.h>' or provide a declaration of 'fabs'
 arm-none-eabi-gcc -o "Kontroll4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\Kontroll4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Kontroll4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Kontroll4.elf
  
 arm-none-eabi-size  Kontroll4.elf 
 arm-none-eabi-objdump -h -S Kontroll4.elf  > "Kontroll4.list"
    text	   data	    bss	    dec	    hex	filename
-  55740	    472	  21016	  77228	  12dac	Kontroll4.elf
+  55852	    472	  21168	  77492	  12eb4	Kontroll4.elf
+Finished building: default.size.stdout
+ 
+Finished building: Kontroll4.list
+ 
+15:00:19 **** Incremental Build of configuration Debug for project Kontroll4 ****
+make -j8 all 
+arm-none-eabi-size  Kontroll4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  55852	    472	  21168	  77492	  12eb4	Kontroll4.elf
+Finished building: default.size.stdout
+ 
+15:00:26 **** Incremental Build of configuration Debug for project Kontroll4 ****
+make -j8 all 
+arm-none-eabi-size  Kontroll4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  55852	    472	  21168	  77492	  12eb4	Kontroll4.elf
+Finished building: default.size.stdout
+ 
+15:15:35 **** Incremental Build of configuration Debug for project Kontroll4 ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
+../Core/Src/freertos.c: In function 'Verileri':
+../Core/Src/freertos.c:194:17: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+  194 |             if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+      |                 ^~~~
+../Core/Src/freertos.c:31:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   30 | #include "queue.h"
+  +++ |+#include <math.h>
+   31 | 
+../Core/Src/freertos.c:194:17: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+  194 |             if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+      |                 ^~~~
+../Core/Src/freertos.c:194:17: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/freertos.c: In function 'MotorKontrol':
+../Core/Src/freertos.c:235:16: warning: unused variable 'buffer' [-Wunused-variable]
+  235 |           char buffer[50];
+      |                ^~~~~~
+arm-none-eabi-gcc -o "Kontroll4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\Kontroll4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Kontroll4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Kontroll4.elf
+ 
+arm-none-eabi-size  Kontroll4.elf 
+arm-none-eabi-objdump -h -S Kontroll4.elf  > "Kontroll4.list"
+   text	   data	    bss	    dec	    hex	filename
+  55076	    472	  21168	  76716	  12bac	Kontroll4.elf
+Finished building: default.size.stdout
+ 
+Finished building: Kontroll4.list
+ 
+15:16:40 **** Incremental Build of configuration Debug for project Kontroll4 ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/motorFonk.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/motorFonk.d" -MT"Core/Src/motorFonk.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/motorFonk.o"
+../Core/Src/motorFonk.c: In function 'motor_kontrol':
+../Core/Src/motorFonk.c:21:11: warning: unused variable 'deneme' [-Wunused-variable]
+   21 |     float deneme = alinanV.sonaci;
+      |           ^~~~~~
+../Core/Src/freertos.c: In function 'Verileri':
+../Core/Src/freertos.c:194:17: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+  194 |             if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+      |                 ^~~~
+../Core/Src/freertos.c:31:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   30 | #include "queue.h"
+  +++ |+#include <math.h>
+   31 | 
+../Core/Src/freertos.c:194:17: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+  194 |             if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+      |                 ^~~~
+../Core/Src/freertos.c:194:17: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/freertos.c: In function 'MotorKontrol':
+../Core/Src/freertos.c:235:16: warning: unused variable 'buffer' [-Wunused-variable]
+  235 |           char buffer[50];
+      |                ^~~~~~
+arm-none-eabi-gcc -o "Kontroll4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\Kontroll4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Kontroll4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Kontroll4.elf
+ 
+arm-none-eabi-size  Kontroll4.elf 
+arm-none-eabi-objdump -h -S Kontroll4.elf  > "Kontroll4.list"
+   text	   data	    bss	    dec	    hex	filename
+  55852	    472	  21168	  77492	  12eb4	Kontroll4.elf
+Finished building: default.size.stdout
+ 
+Finished building: Kontroll4.list
+ 
+15:22:33 **** Incremental Build of configuration Debug for project Kontroll4 ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/motorFonk.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/motorFonk.d" -MT"Core/Src/motorFonk.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/motorFonk.o"
+../Core/Src/freertos.c: In function 'Verileri':
+../Core/Src/freertos.c:194:17: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+  194 |             if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+      |                 ^~~~
+../Core/Src/freertos.c:34:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   33 | #include "queue.h"
+  +++ |+#include <math.h>
+   34 | 
+../Core/Src/freertos.c:194:17: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+  194 |             if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+      |                 ^~~~
+../Core/Src/freertos.c:194:17: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/freertos.c: In function 'MotorKontrol':
+../Core/Src/freertos.c:235:16: warning: unused variable 'buffer' [-Wunused-variable]
+  235 |           char buffer[50];
+      |                ^~~~~~
+../Core/Src/motorFonk.c: In function 'motor_kontrol':
+../Core/Src/motorFonk.c:21:11: warning: unused variable 'deneme' [-Wunused-variable]
+   21 |     float deneme = alinanV.sonaci;
+      |           ^~~~~~
+arm-none-eabi-gcc -o "Kontroll4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aliya\proje\KontrolOrtakCalisma\Kontroll4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Kontroll4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Kontroll4.elf
+ 
+arm-none-eabi-size  Kontroll4.elf 
+arm-none-eabi-objdump -h -S Kontroll4.elf  > "Kontroll4.list"
+   text	   data	    bss	    dec	    hex	filename
+  55852	    472	  21168	  77492	  12eb4	Kontroll4.elf
 Finished building: default.size.stdout
  
 Finished building: Kontroll4.list

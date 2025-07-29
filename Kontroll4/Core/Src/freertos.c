@@ -17,6 +17,9 @@
   */
 /* USER CODE END Header */
 
+/* SİSTEMİN PID AYARLARI motorFonk.h DOSYASO İÇERİSİNDE KP,Ki ve Kd  DEĞERLERİNİ DEĞİŞTİREBİLİRSİNİZ */
+
+
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
 #include "task.h"
@@ -54,14 +57,14 @@
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 2048 * 4,
+  .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for myTask02 */
 osThreadId_t myTask02Handle;
 const osThreadAttr_t myTask02_attributes = {
   .name = "myTask02",
-  .stack_size = 2048 * 4,
+  .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for SharedData */
@@ -113,7 +116,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the queue(s) */
   /* creation of SharedData */
-  SharedDataHandle = osMessageQueueNew (16, sizeof(uint16_t), &SharedData_attributes);
+  SharedDataHandle = osMessageQueueNew(16, sizeof(Veri_T), &SharedData_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
@@ -146,53 +149,71 @@ void MX_FREERTOS_Init(void) {
 void Verileri(void *argument)
 {
   /* USER CODE BEGIN Verileri */
-	Veri_T dataT;
+
   	ortatanim_t data;
-    uint8_t buf[2];
+    Veri_T dataT;
+    uint8_t buf[12];
     TickType_t ilk = xTaskGetTickCount();
+
+    static float onceki_aci = 0.0f;
+
      /* Infinite loop */
   for(;;)
   {
-	  TickType_t son = xTaskGetTickCount();
-	  dataT.dt = (son - ilk) / 1000.0f;
-	  data.i2c_status = HAL_I2C_Master_Receive(&hi2c2, AS5600_I2C_ADDR, buf, 2, HAL_MAX_DELAY);
-    							// buradaki tanımlamaları tanimlama.h'dan değiştir.
+
+    TickType_t son = xTaskGetTickCount();
+	  dataT.dt = (son - ilk) / (float)configTICK_RATE_HZ;
+
+    data.i2c_status = HAL_I2C_Mem_Read(&hi2c2,AS5600_I2C_ADDR,AS5600_REG_RAW_ANGLE,I2C_MEMADD_SIZE_8BIT,buf,2,1);
+
 
     if (data.i2c_status != HAL_OK)
 	  {
     	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 	      osDelay(GECIKME);
+        continue;
 	  }
 
-	      data.raw_angle = (uint16_t)(buf[0] << 8) | buf[1];
-	      data.angle_in_degrees = (float)data.raw_angle * 360.0f / 4096.0f;		// hamverinin dereceye dönüştürüldüğü kısım.
+	      data.raw_angle = ((uint16_t)buf[0] << 8 | buf[1]) & 0x0FFF;
 
+        if (data.raw_angle == 0 || data.raw_angle > 4095){                     // hata veri kontrolü
+          continue;
+        }
+        
+	      data.angle_in_degrees = (float)data.raw_angle * 360.0f / 4096.0f;		  // hamverinin dereceye dönüştürüldüğü kısım.
 
-
-	      data.delta = dataT.sonaci - data.ilkaci;
-	      if (data.delta > 180.0f) {				//bu kısım "-" kısmının ayarlandığı kısım. Kaldırılabilir.
+	      if (data.raw_angle == 0 || data.raw_angle > 4095) continue;
+	      data.delta = data.angle_in_degrees - onceki_aci;
+	      if (data.delta > 180.0f) {				                                    //bu kısım "-" kısmının ayarlandığı kısım. Kaldırılabilir.
 	          data.delta -= 360.0f;
 	      } else if (data.delta < -180.0f) {
 	          data.delta += 360.0f;
 	      }
+        
+            
+            if (fabs(data.delta) > 100.0f){                                   // 100 dereceden fazla delta? Atla
+              continue;
+            }        
 
-	      if (osSemaphoreAcquire(sempHandle, 10) == osOK){
 	    	  dataT.sonaci = data.angle_in_degrees;
 		      dataT.acisalhiz = data.delta / dataT.dt;
-          osMessageQueuePut(SharedDataHandle, &dataT, 0, osWaitForever);
+
+	      if (osSemaphoreAcquire(sempHandle, 10) == osOK){
+
+          osMessageQueuePut(SharedDataHandle, &dataT, 0, 0);
 		      osSemaphoreRelease(sempHandle);
 
 	      }
 
+            onceki_aci = data.angle_in_degrees;
+            ilk = son;
+
+            osDelay(GECIKME);
+//        sprintf(buffer, "Son Aci: %.2f, Acisal Hiz: %.2f\r\n",dataT.sonaci, dataT.acisalhiz);     // kontrol yapmak için burayı açabilirsin. taskler arası veri iletimi kontrolü
+//	      HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 100);
 
 
-    	  osDelay(GECIKME);
 
-            ilk = xTaskGetTickCount();
-            data.ilkaci = data.angle_in_degrees;
-
-
-	//	osMessageQueuePut(SharedDataHandle, &dataT, 0, osWaitForever);
 
     osDelay(1);
   }
@@ -211,21 +232,20 @@ void MotorKontrol(void *argument)
   /* USER CODE BEGIN MotorKontrol */
 	// int pwmDeger;
 	Veri_T dataR;
-    char buffer[50];
-
+	  char buffer[50];
 
   /* Infinite loop */
   for(;;)
   {
-
-	  if (osMessageQueueGet(SharedDataHandle, &dataR, NULL,10) == osOK){
-
-		  if (osSemaphoreAcquire(sempHandle, 10) == osOK) {
-
-			  motor_kontrol(dataR.acisalhiz,dataR.sonaci,dataR.dt,buffer);
-		 	      osSemaphoreRelease (sempHandle);
-		 	  }
-
+	  if (osMessageQueueGet(SharedDataHandle, &dataR, NULL, osWaitForever) == osOK)
+	  {
+	      if (osSemaphoreAcquire(sempHandle, 10) == osOK)
+	      {
+//	    	   sprintf(buffer, "Son Aci: %.2f, Acisal Hiz: %.2f\r\n", dataR.sonaci, dataR.acisalhiz);     // burası da kontrol. burası motor_kontrole düzgün veri aktarılıyor mu diye kontrol eder
+//	    	   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), 10000);
+	          motor_kontrol(dataR);
+	          osSemaphoreRelease(sempHandle);
+	      }
 	  }
 
 
